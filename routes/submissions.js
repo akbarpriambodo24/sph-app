@@ -194,6 +194,7 @@ router.get('/:id/download/pdf', requireLogin, async (req, res) => {
       const puppeteer = require('puppeteer');
           const browser = await puppeteer.launch({
                   headless: 'new',
+                  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium',
                   args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
           });
           const page = await browser.newPage();
@@ -265,7 +266,7 @@ router.post('/meta/users', requireAdmin, (req, res) => {
     }
     try {
           const result = db.prepare('INSERT INTO users (username, password, full_name, role) VALUES (?, ?, ?, ?)').run(username, password, full_name, role);
-          res.json({ success: true, id: result.lastInsertRowid });
+          res.json({ success: true, id: result.lastInsertRowid })
     } catch (e) {
           res.status(400).json({ error: 'Username sudah digunakan' });
     }
