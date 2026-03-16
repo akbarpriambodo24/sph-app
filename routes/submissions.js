@@ -189,7 +189,7 @@ router.get('/:id/download/pdf', requireLogin, async (req, res) => {
           const settings = {};
           db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
           const submission = { ...row, items: JSON.parse(row.items) };
-          const html = generateHTML(submission, settings);
+          const html = await generateHTML(submission, settings);
 
       const puppeteer = require('puppeteer');
           const browser = await puppeteer.launch({
