@@ -1,5 +1,6 @@
-const fs   = require('fs');
-const path = require('path');
+const fs      = require('fs');
+const path    = require('path');
+const QRCode  = require('qrcode');
 
 function formatRupiah(angka) {
   if (!angka && angka !== 0) return '0';
@@ -24,8 +25,14 @@ function toBase64(filePath) {
   if (!fs.existsSync(filePath)) return null;
   return `data:image/png;base64,${fs.readFileSync(filePath).toString('base64')}`;
 }
+async function generateQRDataUrl(text) {
+  if (!text || !text.trim()) return null;
+  try {
+    return await QRCode.toDataURL(text.trim(), { width: 72, margin: 1, errorCorrectionLevel: 'M' });
+  } catch (e) { return null; }
+}
 
-function generateHTML(submission, settings) {
+async function generateHTML(submission, settings) {
   const { nomor, client_title, client_name, client_address, client_city,
           items, ppn_included, ongkir_included, notes, lampiran, created_at } = submission;
 
@@ -41,6 +48,11 @@ function generateHTML(submission, settings) {
   const logoDataUrl = toBase64(path.join(__dirname, 'public', 'img', 'logo.png'));
   const ttdDataUrl  = toBase64(path.join(__dirname, 'public', 'img', 'ttd.png'));
 
+  // Generate QR untuk setiap item yang punya link
+  const qrDataUrls = await Promise.all(
+    items.map(item => item.link ? generateQRDataUrl(item.link) : Promise.resolve(null))
+  );
+
   const grandTotal = items.reduce(
     (s, i) => s + (parseFloat(i.qty) || 0) * (parseFloat(i.harga_satuan) || 0), 0
   );
@@ -49,6 +61,9 @@ function generateHTML(submission, settings) {
     const qty   = parseFloat(item.qty)          || 0;
     const harga = parseFloat(item.harga_satuan) || 0;
     const bg    = idx % 2 === 0 ? '#ffffff' : '#eef4fb';
+    const qrCell = qrDataUrls[idx]
+      ? `<td style="text-align:center;padding:2px 4px"><img src="${qrDataUrls[idx]}" width="52" height="52" alt="QR"></td>`
+      : `<td style="text-align:center;color:#aaa">-</td>`;
     return `<tr style="background:${bg}">
       <td style="text-align:center">${idx + 1}</td>
       <td><strong>${esc(item.nama_produk)}</strong></td>
@@ -58,6 +73,7 @@ function generateHTML(submission, settings) {
       <td style="text-align:center">${esc(item.satuan || '')}</td>
       <td style="text-align:right">Rp ${formatRupiah(harga)}</td>
       <td style="text-align:right"><strong>Rp ${formatRupiah(qty * harga)}</strong></td>
+      ${qrCell}
     </tr>`;
   }).join('');
 
@@ -79,8 +95,6 @@ function generateHTML(submission, settings) {
       font-size: 11pt;
       color: #111;
       background: #fff;
-      /* tidak ada padding-top/bottom di sini —
-         Puppeteer mengatur margin via page.pdf({ margin }) */
     }
 
     /* ── Info surat ── */
@@ -151,13 +165,13 @@ function generateHTML(submission, settings) {
     <thead>
       <tr>
         <th>No</th><th>Nama Produk</th><th>Merek</th><th>Spesifikasi</th>
-        <th>Qty</th><th>Satuan</th><th>Harga Satuan</th><th>Total</th>
+        <th>Qty</th><th>Satuan</th><th>Harga Satuan</th><th>Total</th><th>Info</th>
       </tr>
     </thead>
     <tbody>${itemRows}</tbody>
     <tfoot>
       <tr>
-        <td colspan="7" style="text-align:right">GRAND TOTAL</td>
+        <td colspan="8" style="text-align:right">GRAND TOTAL</td>
         <td style="text-align:right">Rp ${formatRupiah(grandTotal)}</td>
       </tr>
     </tfoot>
@@ -189,7 +203,7 @@ function generateHTML(submission, settings) {
 </html>`;
 }
 
-// generateHeaderHTML — dipanggil dari submissions.js untuk Puppeteer headerTemplate
+// generateHeaderHTML — Puppeteer headerTemplate (setiap halaman)
 function generateHeaderHTML(settings) {
   const companyName = settings.company_name || 'PT. Lapan Alpha Kirana';
   const logoDataUrl = toBase64(path.join(__dirname, 'public', 'img', 'logo.png'));
@@ -197,7 +211,7 @@ function generateHeaderHTML(settings) {
 <html><head><meta charset="UTF-8">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; font-size: 9pt; width: 100%; -webkit-print-color-adjust: exact; }
+  body { font-family: Arial, sans-serif; width: 100%; -webkit-print-color-adjust: exact; }
   .header-wrap { padding: 0 20mm; width: 100%; }
   .logo-row { text-align: right; padding-top: 8mm; }
   .logo-row img { max-height: 20mm; max-width: 35mm; object-fit: contain; }
@@ -213,7 +227,7 @@ function generateHeaderHTML(settings) {
 </body></html>`;
 }
 
-// generateFooterHTML — dipanggil dari submissions.js untuk Puppeteer footerTemplate
+// generateFooterHTML — Puppeteer footerTemplate (setiap halaman)
 function generateFooterHTML(settings) {
   const companyName       = settings.company_name       || 'PT. Lapan Alpha Kirana';
   const companyHeadoffice = settings.company_headoffice || '';
