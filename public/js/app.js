@@ -215,8 +215,8 @@ function renderSubmissionTable(submissions, showActions = false, isAdmin = false
           <button onclick="viewDetail(${s.id})" class="btn btn-secondary btn-sm">🔍 Detail</button>
           ${s.status === 'approved' ? `
             <div class="download-group">
-              <button onclick="downloadDoc(${s.id},'docx')" class="btn btn-success btn-sm" title="Unduh Word">⬇️ Word</button>
-              <button onclick="downloadDoc(${s.id},'pdf')"  class="btn btn-pdf btn-sm"     title="Unduh PDF">📄 PDF</button>
+              ${currentUser.role === 'admin' ? `<button onclick="downloadDoc(${s.id},'docx')" class="btn btn-success btn-sm" title="Unduh Word">⬇️ Word</button>` : ''}
+              <button onclick="downloadDoc(${s.id},'pdf')" class="btn btn-pdf btn-sm" title="Unduh PDF">📄 PDF</button>
             </div>` : ''}
           ${isAdmin && s.status === 'pending' ? `
             <button onclick="approveSubmission(${s.id})" class="btn btn-success btn-sm">✅ Setuju</button>
@@ -347,8 +347,10 @@ async function viewDetail(id) {
     // Footer buttons
     let footerHTML = '';
     if (s.status === 'approved') {
-      footerHTML += `<button onclick="downloadDoc(${s.id},'docx')" class="btn btn-success">⬇️ Unduh Word</button>`;
-      footerHTML += `<button onclick="downloadDoc(${s.id},'pdf')"  class="btn btn-pdf">📄 Unduh PDF</button>`;
+      if (currentUser.role === 'admin') {
+        footerHTML += `<button onclick="downloadDoc(${s.id},'docx')" class="btn btn-success">⬇️ Unduh Word</button>`;
+      }
+      footerHTML += `<button onclick="downloadDoc(${s.id},'pdf')" class="btn btn-pdf">📄 Unduh PDF</button>`;
     }
     if (currentUser.role === 'admin' && s.status === 'pending') {
       footerHTML += `<button onclick="approveSubmission(${s.id})" class="btn btn-success">✅ Setujui</button>`;
