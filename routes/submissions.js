@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../database');
 const { generateDoc } = require('../docGenerator');
-const { generateHTML } = require('../htmlGenerator');
+const { generateHTML, generateHeaderHTML, generateFooterHTML } = require('../htmlGenerator');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
@@ -199,12 +199,26 @@ router.get('/:id/download/pdf', requireLogin, async (req, res) => {
           });
           const page = await browser.newPage();
           await page.setContent(html, { waitUntil: 'networkidle0' });
+
+          // Header & footer Puppeteer (muncul di setiap halaman)
+          const headerHtml = generateHeaderHTML(settings);
+          const footerHtml = generateFooterHTML(settings);
+          const hasFooter  = !!(settings.company_headoffice || settings.company_warehouse);
+
           const pdfBuffer = await page.pdf({
                   format: 'A4',
                   printBackground: true,
-                  margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' }
+                  displayHeaderFooter: true,
+                  headerTemplate: headerHtml,
+                  footerTemplate: hasFooter ? footerHtml : '<span></span>',
+                  margin: {
+                    top: '38mm',
+                    bottom: hasFooter ? '28mm' : '15mm',
+                    left: '20mm',
+                    right: '20mm'
+                  }
           });
-          await browser.close();
+          await browser.close()
 
       const filename = `SPH_${row.nomor.replace(/\//g,'-')}_${row.client_name.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`;
           res.setHeader('Content-Type', 'application/pdf');
