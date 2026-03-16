@@ -46,7 +46,7 @@ function generateHTML(submission, settings) {
   );
 
   const itemRows = items.map((item, idx) => {
-    const qty   = parseFloat(item.qty)         || 0;
+    const qty   = parseFloat(item.qty)          || 0;
     const harga = parseFloat(item.harga_satuan) || 0;
     const bg    = idx % 2 === 0 ? '#ffffff' : '#eef4fb';
     return `<tr style="background:${bg}">
@@ -67,12 +67,6 @@ function generateHTML(submission, settings) {
     ...(notes && notes.trim() ? [esc(notes.trim())] : []),
   ];
 
-  const hasFooter = companyHeadoffice || companyWarehouse;
-
-  // Tinggi footer: ~42px tanpa alamat, ~56px dengan 1 alamat, ~70px dengan 2 alamat
-  const footerLines = 1 + (companyHeadoffice ? 1 : 0) + (companyWarehouse ? 1 : 0);
-  const footerHeight = 14 + footerLines * 16; // px estimasi untuk margin-bottom body
-
   return `<!DOCTYPE html>
 <html lang="id">
 <head>
@@ -82,123 +76,53 @@ function generateHTML(submission, settings) {
 
     body {
       font-family: 'Times New Roman', Times, serif;
-      font-size: 11.5pt;
+      font-size: 11pt;
       color: #111;
       background: #fff;
-      /* beri ruang di atas untuk header fixed & di bawah untuk footer fixed */
-      padding-top: 148px;
-      padding-bottom: ${footerHeight + 20}px;
-    }
-
-    @page {
-      size: A4;
-      margin: 20mm;
-    }
-
-    /* ── Header fixed — muncul di setiap halaman ── */
-    .page-header {
-      position: fixed;
-      top: -14mm;          /* tepat di area margin atas @page */
-      left: 0;
-      right: 0;
-      height: 148px;
-    }
-    .page-header .logo-wrap {
-      text-align: right;
-    }
-    .page-header .logo-wrap img {
-      max-width: 150px;
-      max-height: 112px;
-      object-fit: contain;
-    }
-    .page-header .divider {
-      border: none;
-      border-top: 4px solid #1F4E79;
-      border-bottom: 1px solid #1F4E79;
-      margin: 6px 0 0;
-      height: 4px;
-    }
-
-    /* ── Footer fixed — muncul di setiap halaman ── */
-    .page-footer {
-      position: fixed;
-      bottom: -14mm;       /* tepat di area margin bawah @page */
-      left: 0;
-      right: 0;
-    }
-    .page-footer .footer-inner {
-      border-top: 2px solid #1F4E79;
-      padding-top: 5px;
-      text-align: center;
-      font-family: Arial, sans-serif;
-      font-size: 8pt;
-      color: #555;
-      line-height: 1.6;
-    }
-    .page-footer .ft-name {
-      font-weight: bold;
-      color: #1F4E79;
-      font-size: 8.5pt;
+      /* tidak ada padding-top/bottom di sini —
+         Puppeteer mengatur margin via page.pdf({ margin }) */
     }
 
     /* ── Info surat ── */
-    .info-table { border-collapse: collapse; margin-bottom: 12px; }
-    .info-table td { padding: 1px 0; font-size: 11.5pt; }
-    .info-table .lbl { width: 88px; }
-    .info-table .sep { width: 12px; }
+    .info-table { border-collapse: collapse; margin-bottom: 10px; }
+    .info-table td { padding: 1px 0; font-size: 11pt; }
+    .info-table .lbl { width: 80px; }
+    .info-table .sep { width: 10px; }
 
     /* ── Kepada ── */
-    .kepada { line-height: 1.65; margin-bottom: 12px; }
+    .kepada { line-height: 1.6; margin-bottom: 10px; }
 
     /* ── Pembuka ── */
-    .pembuka { line-height: 1.75; margin-bottom: 12px; text-align: justify; }
+    .pembuka { line-height: 1.7; margin-bottom: 10px; text-align: justify; }
 
     /* ── Tabel produk ── */
-    .tbl { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 9.5pt; }
+    .tbl { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 9pt; }
     .tbl th {
       background: #1F4E79; color: #fff;
-      font-family: Arial, sans-serif; font-size: 8.5pt; font-weight: bold;
-      padding: 6px 7px; text-align: center; border: 1px solid #1F4E79;
+      font-family: Arial, sans-serif; font-size: 8pt; font-weight: bold;
+      padding: 5px 6px; text-align: center; border: 1px solid #1F4E79;
     }
-    .tbl td { border: 1px solid #bbb; padding: 4px 7px; vertical-align: middle; }
+    .tbl td { border: 1px solid #bbb; padding: 3px 6px; vertical-align: middle; }
     .tbl tfoot td {
       background: #d6e4f7;
-      font-family: Arial, sans-serif; font-size: 9.5pt; font-weight: bold; color: #1F4E79;
-      border: 1px solid #bbb; padding: 6px 7px;
+      font-family: Arial, sans-serif; font-size: 9pt; font-weight: bold; color: #1F4E79;
+      border: 1px solid #bbb; padding: 5px 6px;
     }
 
     /* ── Kondisi ── */
-    .kondisi { margin-bottom: 10px; }
-    .kondisi ul { padding-left: 18px; line-height: 1.8; }
+    .kondisi { margin-bottom: 8px; }
+    .kondisi ul { padding-left: 16px; line-height: 1.7; }
 
     /* ── Penutup ── */
-    .penutup { line-height: 1.75; text-align: justify; margin-bottom: 10px; }
+    .penutup { line-height: 1.7; text-align: justify; margin-bottom: 8px; }
 
     /* ── Tanda tangan ── */
-    .ttd-section { line-height: 1.65; }
-    .ttd-img { display: block; max-height: 78px; max-width: 155px; margin: 4px 0; }
+    .ttd-section { line-height: 1.6; }
+    .ttd-img { display: block; max-height: 72px; max-width: 145px; margin: 3px 0; }
     .signer-name { text-decoration: underline; }
   </style>
 </head>
 <body>
-
-  <!-- ════ HEADER FIXED — logo + garis, tampil di setiap halaman ════ -->
-  <div class="page-header">
-    <div class="logo-wrap">
-      ${logoDataUrl ? `<img src="${logoDataUrl}" alt="Logo">` : ''}
-    </div>
-    <hr class="divider">
-  </div>
-
-  ${hasFooter ? `
-  <!-- ════ FOOTER FIXED — nama PT + alamat, tampil di setiap halaman ════ -->
-  <div class="page-footer">
-    <div class="footer-inner">
-      <span class="ft-name">${esc(companyName.toUpperCase())}</span>
-      ${companyHeadoffice ? `<br>Head Office : ${esc(companyHeadoffice)}` : ''}
-      ${companyWarehouse  ? `<br>Warehouse : ${esc(companyWarehouse)}`   : ''}
-    </div>
-  </div>` : ''}
 
   <!-- ════ INFO SURAT ════ -->
   <table class="info-table">
@@ -218,7 +142,7 @@ function generateHTML(submission, settings) {
 
   <!-- ════ PEMBUKA ════ -->
   <div class="pembuka">
-    <div style="margin-bottom:7px"><em>Dengan hormat,</em></div>
+    <div style="margin-bottom:6px"><em>Dengan hormat,</em></div>
     <div>Bersama ini kami ${esc(companyName)} yang bergerak dibidang ${esc(companyTagline.toLowerCase())} bermaksud mengajukan penawaran produk sebagai berikut :</div>
   </div>
 
@@ -265,4 +189,51 @@ function generateHTML(submission, settings) {
 </html>`;
 }
 
-module.exports = { generateHTML };
+// generateHeaderHTML — dipanggil dari submissions.js untuk Puppeteer headerTemplate
+function generateHeaderHTML(settings) {
+  const companyName = settings.company_name || 'PT. Lapan Alpha Kirana';
+  const logoDataUrl = toBase64(path.join(__dirname, 'public', 'img', 'logo.png'));
+  return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 9pt; width: 100%; -webkit-print-color-adjust: exact; }
+  .header-wrap { padding: 0 20mm; width: 100%; }
+  .logo-row { text-align: right; padding-top: 8mm; }
+  .logo-row img { max-height: 20mm; max-width: 35mm; object-fit: contain; }
+  .divider { margin-top: 2mm; border: none; border-top: 3px solid #1F4E79; border-bottom: 1px solid #1F4E79; height: 3px; }
+</style>
+</head><body>
+<div class="header-wrap">
+  <div class="logo-row">
+    ${logoDataUrl ? `<img src="${logoDataUrl}" alt="Logo">` : `<span style="font-weight:bold;color:#1F4E79">${esc(companyName)}</span>`}
+  </div>
+  <div class="divider"></div>
+</div>
+</body></html>`;
+}
+
+// generateFooterHTML — dipanggil dari submissions.js untuk Puppeteer footerTemplate
+function generateFooterHTML(settings) {
+  const companyName       = settings.company_name       || 'PT. Lapan Alpha Kirana';
+  const companyHeadoffice = settings.company_headoffice || '';
+  const companyWarehouse  = settings.company_warehouse  || '';
+  if (!companyHeadoffice && !companyWarehouse) return '<html><body></body></html>';
+  return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 7.5pt; color: #555; width: 100%; -webkit-print-color-adjust: exact; }
+  .footer-wrap { padding: 0 20mm; width: 100%; border-top: 1.5px solid #1F4E79; padding-top: 2mm; text-align: center; line-height: 1.5; }
+  .ft-name { font-weight: bold; color: #1F4E79; font-size: 8pt; }
+</style>
+</head><body>
+<div class="footer-wrap">
+  <span class="ft-name">${esc(companyName.toUpperCase())}</span>
+  ${companyHeadoffice ? `<br>Head Office : ${esc(companyHeadoffice)}` : ''}
+  ${companyWarehouse  ? `<br>Warehouse : ${esc(companyWarehouse)}`   : ''}
+</div>
+</body></html>`;
+}
+
+module.exports = { generateHTML, generateHeaderHTML, generateFooterHTML };
