@@ -1,494 +1,146 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Aplikasi Surat Penawaran Harga</title>
-    <link rel="stylesheet" href="/css/style.css">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Surat Penawaran Harga</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
-  <div id="app">
-
-      <!-- Halaman Login -->
-      <div id="page-login" class="page">
-            <div class="login-container">
-                    <div class="login-card">
-                              <div class="login-logo">
-                                          <img src="/img/logo.png" alt="Logo" onerror="this.style.display='none'">
-                                          <h2>Surat Penawaran Harga</h2>
-                                        <p>PT. Lapan Alpha Kirana</p>
-                              </div>div>
-                            <form id="form-login">
-                                      <div class="form-group">
-                                                  <label>Username</label>
-                                                  <input type="text" id="login-username" placeholder="Masukkan username" autocomplete="username" required>
-                                      </div>div>
-                                      <div class="form-group">
-                                                  <label>Password</label>
-                                                  <input type="password" id="login-password" placeholder="Masukkan password" autocomplete="current-password" required>
-                                      </div>div>
-                                      <div id="login-error" class="alert alert-error" style="display:none"></div>div>
-                                      <button type="submit" class="btn btn-primary btn-full">Masuk</button>button>
-                            </form>form>
-                    </div>div>
-            </div>div>
-      </div>div>
-  
-    <!-- App Shell (setelah login) -->
-    <div id="page-app" class="page" style="display:none">
-    
-        <!-- Sidebar -->
-        <nav class="sidebar" id="sidebar">
-              <div class="sidebar-brand">
-                      <img src="/img/logo.png" alt="Logo" class="sidebar-logo" onerror="this.style.display='none'">
-                      <span>SPH App</span>
-              </div>div>
-              <ul class="sidebar-menu">
-                      <li><a href="#" onclick="showPage('dashboard')" class="menu-item" data-page="dashboard">
-                                <span class="icon">📊</span> Dashboard
-                      </a>a></li>
-                      <li><a href="#" onclick="showPage('new-submission')" class="menu-item" data-page="new-submission" id="menu-new-submission">
-                                <span class="icon">✏️</span>span> Buat Pengajuan
-                      </a>a></li>
-                      <li><a href="#" onclick="showPage('my-submissions')" class="menu-item" data-page="my-submissions">
-                                <span class="icon">📄</span>span> Pengajuan Saya
-                      </a>a></li>
-                      <li class="menu-divider admin-only" style="display:none"></li>
-                      <li class="admin-only" style="display:none"><a href="#" onclick="showPage('admin-submissions')" class="menu-item" data-page="admin-submissions">
-                                <span class="icon">🗂️</span>span> Semua Pengajuan
-                      </a>a></li>
-                      <li class="admin-only" style="display:none"><a href="#" onclick="showPage('admin-users')" class="menu-item" data-page="admin-users">
-                                <span class="icon">👥</span>span> Kelola Pengguna
-                      </a>a></li>
-                      <li class="admin-only" style="display:none"><a href="#" onclick="showPage('admin-settings')" class="menu-item" data-page="admin-settings">
-                                <span class="icon">⚙️</span>span> Pengaturan
-                      </a>a></li>
-              </ul>ul>
-              <div class="sidebar-footer">
-                      <div class="user-info">
-                                <div class="user-avatar" id="user-avatar">U</div>div>
-                                <div>
-                                              <div class="user-name" id="user-name">User</div>
-                                              <div class="user-role" id="user-role">Staff</div>
-                                </div>
-                      </div>
-                        <button onclick="logout()" class="btn-logout" title="Keluar">⏻</button>button>
+<div id="app">
+  <div id="page-login" class="page">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-logo">
+          <img src="/img/logo.png" alt="Logo" onerror="this.style.display='none'">
+          <h2>Surat Penawaran Harga</h2>
+          <p>PT. Lapan Alpha Kirana</p>
+        </div>
+        <form id="form-login">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="login-username" placeholder="Masukkan username" autocomplete="username" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="login-password" placeholder="Masukkan password" autocomplete="current-password" required>
+          </div>
+          <div id="login-error" class="alert alert-error" style="display:none"></div>
+          <button type="submit" class="btn btn-primary btn-full">Masuk</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="page-app" class="page" style="display:none">
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <img src="/img/logo.png" alt="Logo" class="sidebar-logo" onerror="this.style.display='none'">
+        <span>SPH App</span>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="#" onclick="showPage('dashboard')" class="menu-item" data-page="dashboard"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="#" onclick="showPage('new-submission')" class="menu-item" data-page="new-submission" id="menu-new-submission"><span class="icon">✏️</span> Buat Pengajuan</a></li>
+        <li><a href="#" onclick="showPage('my-submissions')" class="menu-item" data-page="my-submissions"><span class="icon">📄</span> Pengajuan Saya</a></li>
+        <li class="menu-divider admin-only" style="display:none"></li>
+        <li class="admin-only" style="display:none"><a href="#" onclick="showPage('admin-submissions')" class="menu-item" data-page="admin-submissions"><span class="icon">🗂️</span> Semua Pengajuan</a></li>
+        <li class="admin-only" style="display:none"><a href="#" onclick="showPage('admin-users')" class="menu-item" data-page="admin-users"><span class="icon">👥</span> Kelola Pengguna</a></li>
+        <li class="admin-only" style="display:none"><a href="#" onclick="showPage('admin-settings')" class="menu-item" data-page="admin-settings"><span class="icon">⚙️</span> Pengaturan</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">U</div>
+          <div>
+            <div class="user-name" id="user-name">User</div>
+            <div class="user-role" id="user-role">Staff</div>
+          </div>
+        </div>
+        <button onclick="logout()" class="btn-logout" title="Keluar">⏻</button>
+      </div>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="btn-menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="top-bar-title" id="top-bar-title">Dashboard</div>
+        <div class="top-bar-right"><span id="top-bar-user"></span></div>
+      </header>
+      <div class="content-area">
+        <div id="content-dashboard" class="content-page">
+          <h1 class="page-title">Dashboard</h1>
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-info"><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total Pengajuan</div></div></div>
+            <div class="stat-card stat-pending"><div class="stat-icon">⏳</div><div class="stat-info"><div class="stat-number" id="stat-pending">0</div><div class="stat-label">Menunggu Persetujuan</div></div></div>
+            <div class="stat-card stat-approved"><div class="stat-icon">✅</div><div class="stat-info"><div class="stat-number" id="stat-approved">0</div><div class="stat-label">Disetujui</div></div></div>
+            <div class="stat-card stat-rejected"><div class="stat-icon">❌</div><div class="stat-info"><div class="stat-number" id="stat-rejected">0</div><div class="stat-label">Ditolak</div></div></div>
+          </div>
+          <div class="card"><div class="card-header"><h3>Pengajuan Terbaru</h3></div><div id="recent-submissions"></div></div>
+        </div>
+        <div id="content-new-submission" class="content-page" style="display:none">
+          <h1 class="page-title">Buat Pengajuan SPH Baru</h1>
+          <form id="form-submission">
+            <div class="card">
+              <div class="card-header"><h3>📬 Informasi Penerima</h3></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group"><label>Jabatan / Title Penerima</label><input type="text" id="sub-client-title" placeholder="Cth: Kepala Dinas Kesehatan Kab. Klaten"></div>
+                  <div class="form-group"><label>Nama Instansi / Perusahaan <span class="required">*</span></label><input type="text" id="sub-client-name" placeholder="Cth: RS Uni Medika Bekasi" required></div>
+                </div>
+                <div class="form-group"><label>Alamat Lengkap <span class="required">*</span></label><textarea id="sub-client-address" rows="2" placeholder="Cth: Jl. Pemuda No.313" required></textarea></div>
+                <div class="form-group"><label>Kota / Lokasi</label><input type="text" id="sub-client-city" placeholder="di Tempat" value="di Tempat"></div>
               </div>
-        </nav>nav>
-
-          <!-- Main Content -->
-          <main class="main-content">
-                  <!-- Header -->
-                  <header class="top-bar">
-                            <button class="btn-menu-toggle" onclick="toggleSidebar()">☰</button>button>
-                            <div class="top-bar-title" id="top-bar-title">Dashboard</div>
-                            <div class="top-bar-right">
-                                        <span id="top-bar-user"></span>
-                            </div>
-                  </header>header>
-
-                  <!-- Content Area -->
-                  <div class="content-area">
-
-                            <!-- DASHBOARD -->
-                            <div id="content-dashboard" class="content-page">
-                                        <h1 class="page-title">Dashboard</h1>
-                                        <div class="stats-grid" id="stats-grid">
-                                                      <div class="stat-card">
-                                                                      <div class="stat-icon">📋</div>
-                                                                      <div class="stat-info">
-                                                                                        <div class="stat-number" id="stat-total">0</div>
-                                                                                        <div class="stat-label">Total Pengajuan</div>
-                                                                      </div>
-                                                      </div>
-                                                      <div class="stat-card stat-pending">
-                                                                      <div class="stat-icon">⏳</div>
-                                                                      <div class="stat-info">
-                                                                                        <div class="stat-number" id="stat-pending">0</div>
-                                                                                        <div class="stat-label">Menunggu Persetujuan</div>
-                                                                      </div>
-                                                      </div>
-                                                      <div class="stat-card stat-approved">
-                                                                      <div class="stat-icon">✅</div>
-                                                                      <div class="stat-info">
-                                                                                        <div class="stat-number" id="stat-approved">0</div>
-                                                                                        <div class="stat-label">Disetujui</div>
-                                                                      </div>
-                                                      </div>
-                                                      <div class="stat-card stat-rejected">
-                                                                      <div class="stat-icon">❌</div>
-                                                                      <div class="stat-info">
-                                                                                        <div class="stat-number" id="stat-rejected">0</div>
-                                                                                        <div class="stat-label">Ditolak</div>
-                                                                      </div>
-                                                      </div>
-                                        </div>
-                                        <div class="card">
-                                                      <div class="card-header">
-                                                                      <h3>Pengajuan Terbaru</h3>
-                                                      </div>
-                                                      <div id="recent-submissions"></div>
-                                        </div>
-                            </div>
-
-                            <!-- BUAT PENGAJUAN BARU -->
-                            <div id="content-new-submission" class="content-page" style="display:none">
-                                        <h1 class="page-title">Buat Pengajuan SPH Baru</h1>
-                                        <form id="form-submission">
-                                                      <div class="card">
-                                                                      <div class="card-header"><h3>📬 Informasi Penerima</h3></div>
-                                                                      <div class="card-body">
-                                                                                        <div class="form-row">
-                                                                                                            <div class="form-group">
-                                                                                                                                  <label>Jabatan / Title Penerima</label>
-                                                                                                                                  <input type="text" id="sub-client-title" placeholder="Cth: Kepala Dinas Kesehatan Kab. Klaten">
-                                                                                                              </div>
-                                                                                                            <div class="form-group">
-                                                                                                                                  <label>Nama Instansi / Perusahaan <span class="required">*</span></label>
-                                                                                                                                  <input type="text" id="sub-client-name" placeholder="Cth: RS Uni Medika Bekasi" required>
-                                                                                                              </div>
-                                                                                          </div>
-                                                                                        <div class="form-group">
-                                                                                                            <label>Alamat Lengkap <span class="required">*</span></label>
-                                                                                                            <textarea id="sub-client-address" rows="2" placeholder="Cth: Jl. Pemuda No.313, Klaten Tengah, Jawa Tengah 57412" required></textarea>
-                                                                                          </div>
-                                                                                        <div class="form-group">
-                                                                                                            <label>Kota / Lokasi</label>
-                                                                                                            <input type="text" id="sub-client-city" placeholder="di Tempat" value="di Tempat">
-                                                                                          </div>
-                                                                      </div>
-                                                      </div>
-
-                                                      <div class="card">
-                                                                      <div class="card-header">
-                                                                                        <h3>🏷️ Daftar Produk</h3>
-                                                                                        <button type="button" onclick="addProductRow()" class="btn btn-secondary btn-sm">+ Tambah Produk</button>button>
-                                                                      </div>
-                                                                      <div class="card-body no-padding">
-                                                                                        <div class="table-responsive">
-                                                                                                            <table class="table" id="product-table">
-                                                                                                                                  <thead>
-                                                                                                                                                          <tr>
-                                                                                                                                                                                    <th width="40">No</th>th>
-                                                                                                                                                                                    <th>Nama Produk *</th>
-                                                                                                                                                          <th>Pabrikan</th>
-                                                                                                                                                          <th>Spesifikasi</th>
-                                                                                                                                                          <th width="70">Qty *</th>
-                                                                                                                                                          <th width="80">Satuan</th>
-                                                                                                                                                          <th width="140">Harga Satuan *</th>
-                                                                                                                                                          <th width="140">Total</th>
-                                                                                                                                                          <th width="200">Link Info Produk</th>
-                                                                                                                                                          <th width="50"></th>
-                                                                                                                                                            </tr>
-                                                                                                                                    </thead>
-                                                                                                                                <tbody id="product-tbody">
-                                                                                                                                  </tbody>tbody>
-                                                                                                                                <tfoot>
-                                                                                                                                                        <tr>
-                                                                                                                                                                                  <td colspan="7" class="text-right fw-bold">TOTAL</td>td>
-                                                                                                                                                                                  <td class="text-right fw-bold" id="grand-total">Rp 0</td>td>
-                                                                                                                                                                                  <td colspan="2"></td>td>
-                                                                                                                                                          </tr>
-                                                                                                                                  </tfoot>
-                                                                                                              </table>table>
-                                                                                          </div>
-                                                                      </div>
-                                                      </div>
-
-                                                      <div class="card">
-                                                                      <div class="card-header"><h3>📋 Kondisi &amp; Catatan</h3></div>
-                                                                    <div class="card-body">
-                                                                                    <div class="form-row">
-                                                                                                      <div class="form-group">
-                                                                                                                          <label>PPN</label>
-                                                                                                                          <div class="radio-group">
-                                                                                                                                                <label class="radio-label">
-                                                                                                                                                                          <input type="radio" name="ppn" value="1" checked> Sudah termasuk PPN
-                                                                                                                                                  </label>
-                                                                                                                                                  <label class="radio-label">
-                                                                                                                                                                            <input type="radio" name="ppn" value="0"> Belum termasuk PPN
-                                                                                                                                                    </label>
-                                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="form-group">
-                                                                                                                              <label>Ongkos Kirim</label>
-                                                                                                                            <div class="radio-group">
-                                                                                                                                                  <label class="radio-label">
-                                                                                                                                                                            <input type="radio" name="ongkir" value="0" checked> Belum termasuk ongkir
-                                                                                                                                                    </label>
-                                                                                                                                                    <label class="radio-label">
-                                                                                                                                                                              <input type="radio" name="ongkir" value="1"> Sudah termasuk ongkir
-                                                                                                                                                      </label>
-                                                                                                                              </div>
-                                                                                                          </div>
-                                                                                      </div>
-                                                                                      <div class="form-group">
-                                                                                                          <label>Lampiran</label>
-                                                                                                          <input type="text" id="sub-lampiran" placeholder="Cth: 1 Lembar Brosur">
-                                                                                        </div>
-                                                                                      <div class="form-group">
-                                                                                                          <label>Catatan Tambahan</label>
-                                                                                                          <textarea id="sub-notes" rows="2" placeholder="Catatan atau kondisi penawaran lainnya..."></textarea>
-                                                                                        </div>
-                                                                    </div>
-                                                      </div>
-
-                                                      <div class="form-actions">
-                                                                      <div id="submit-error" class="alert alert-error" style="display:none"></div>
-                                                                      <div id="submit-success" class="alert alert-success" style="display:none"></div>
-                                                                      <button type="submit" class="btn btn-primary">📤 Kirim Pengajuan</button>button>
-                                                                      <button type="button" onclick="showPage('my-submissions')" class="btn btn-outline">Batal</button>button>
-                                                      </div>
-                                        </form>form>
-                            </div>
-
-                            <!-- PENGAJUAN SAYA -->
-                            <div id="content-my-submissions" class="content-page" style="display:none">
-                                        <div class="page-header">
-                                                      <h1 class="page-title">Pengajuan Saya</h1>
-                                                      <button onclick="showPage('new-submission')" class="btn btn-primary">+ Buat Pengajuan</button>button>
-                                        </div>
-                                        <div class="card">
-                                                      <div id="my-submissions-list"></div>
-                                        </div>
-                            </div>
-
-                            <!-- ADMIN: SEMUA PENGAJUAN -->
-                            <div id="content-admin-submissions" class="content-page" style="display:none">
-                                        <div class="page-header">
-                                                      <h1 class="page-title">Semua Pengajuan</h1>
-                                                      <div class="filter-bar">
-                                                                      <select id="filter-status" onchange="loadAdminSubmissions()">
-                                                                                        <option value="">Semua Status</option>option>
-                                                                                        <option value="pending">Menunggu</option>option>
-                                                                                        <option value="approved">Disetujui</option>option>
-                                                                                        <option value="rejected">Ditolak</option>option>
-                                                                      </select>select>
-                                                      </div>
-                                        </div>
-                                        <div class="card">
-                                                      <div id="admin-submissions-list"></div>
-                                        </div>
-                            </div>
-
-                            <!-- ADMIN: KELOLA PENGGUNA -->
-                            <div id="content-admin-users" class="content-page" style="display:none">
-                                        <div class="page-header">
-                                                      <h1 class="page-title">Kelola Pengguna</h1>
-                                                      <button onclick="showModal('modal-add-user')" class="btn btn-primary">+ Tambah Pengguna</button>button>
-                                        </div>
-                                        <div class="card">
-                                                      <div id="users-list"></div>
-                                        </div>
-                            </div>
-
-                            <!-- ADMIN: PENGATURAN -->
-                            <div id="content-admin-settings" class="content-page" style="display:none">
-                                        <h1 class="page-title">Pengaturan Aplikasi</h1>
-
-                                        <!-- Upload Logo & TTD (di luar form settings) -->
-                                        <div class="card">
-                                                      <div class="card-header"><h3>🖼️ Logo Perusahaan (Kanan Atas Surat)</h3></div>
-                                                      <div class="card-body">
-                                                                      <div class="upload-preview-row">
-                                                                                        <div class="upload-preview-box" id="logo-preview-box">
-                                                                                                            <img id="logo-preview" src="/img/logo.png" alt="Logo" onerror="this.style.display='none';document.getElementById('logo-placeholder').style.display='flex'">
-                                                                                                            <div id="logo-placeholder" class="upload-placeholder" style="display:none">Belum ada logo</div>
-                                                                                          </div>
-                                                                                        <div class="upload-controls">
-                                                                                                            <label class="btn btn-secondary" for="input-logo">📁 Pilih File Logo</label>
-                                                                                                            <input type="file" id="input-logo" accept="image/*" style="display:none" onchange="uploadImage('logo', this)">
-                                                                                                            <small>Format: PNG, JPG, WEBP. Maks 5MB.<br>Rekomendasi: transparan (PNG) dengan lebar ≥ 300px.</small>
-                                                                                                          <div id="logo-upload-msg" class="alert" style="display:none;margin-top:8px"></div>
-                                                                                          </div>
-                                                                      </div>
-                                                      </div>
-                                        </div>
-                            
-                                      <div class="card">
-                                                  <div class="card-header"><h3>✍️ Gambar Tanda Tangan</h3></div>
-                                                  <div class="card-body">
-                                                                <div class="upload-preview-row">
-                                                                                <div class="upload-preview-box upload-preview-box--ttd" id="ttd-preview-box">
-                                                                                                  <img id="ttd-preview" src="/img/ttd.png" alt="TTD" onerror="this.style.display='none';document.getElementById('ttd-placeholder').style.display='flex'">
-                                                                                                  <div id="ttd-placeholder" class="upload-placeholder" style="display:none">Belum ada tanda tangan</div>
-                                                                                </div>
-                                                                                <div class="upload-controls">
-                                                                                                  <label class="btn btn-secondary" for="input-ttd">📁 Pilih File TTD</label>
-                                                                                                  <input type="file" id="input-ttd" accept="image/*" style="display:none" onchange="uploadImage('ttd', this)">
-                                                                                                  <small>Format: PNG (transparan disarankan). Maks 5MB.<br>Scan tanda tangan dengan background putih/transparan.</small>
-                                                                                                  <div id="ttd-upload-msg" class="alert" style="display:none;margin-top:8px"></div>
-                                                                                </div>
-                                                                </div>
-                                                  </div>
-                                      </div>
-                            
-                                      <form id="form-settings">
-                                                  <div class="card">
-                                                                <div class="card-header"><h3>🏢 Informasi Perusahaan (Kop Surat)</h3></div>
-                                                                <div class="card-body">
-                                                                                <div class="form-row">
-                                                                                                  <div class="form-group">
-                                                                                                                      <label>Nama Perusahaan</label>
-                                                                                                                      <input type="text" id="set-company-name">
-                                                                                                    </div>
-                                                                                                  <div class="form-group">
-                                                                                                                      <label>Bidang Usaha / Tagline</label>
-                                                                                                                      <input type="text" id="set-company-tagline">
-                                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                                  <label>Alamat Perusahaan</label>
-                                                                                                  <input type="text" id="set-company-address" placeholder="Cth: Jl. Contoh No. 1, Jakarta Selatan 12345">
-                                                                                </div>
-                                                                                <div class="form-row">
-                                                                                                  <div class="form-group">
-                                                                                                                      <label>Nomor Telepon</label>
-                                                                                                                      <input type="text" id="set-company-phone" placeholder="Cth: (021) 1234-5678">
-                                                                                                    </div>
-                                                                                                  <div class="form-group">
-                                                                                                                      <label>Email Perusahaan</label>
-                                                                                                                      <input type="email" id="set-company-email" placeholder="Cth: info@perusahaan.co.id">
-                                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                                  <label>Head Office <small style="color:var(--text-light)">(tampil di footer surat)</small></label>
-                                                                                                  <input type="text" id="set-company-headoffice" placeholder="Cth: Jl. Sudirman Kav. 52, Jakarta Selatan 12190">
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                                  <label>Warehouse <small style="color:var(--text-light)">(tampil di footer surat)</small></label>
-                                                                                                  <input type="text" id="set-company-warehouse" placeholder="Cth: Jl. Industri No. 10, Cibitung, Bekasi">
-                                                                                </div>
-                                                                </div>
-                                                  </div>
-                                      
-                                                  <div class="card">
-                                                                <div class="card-header"><h3>✍️ Penanda Tangan</h3></div>
-                                                                <div class="card-body">
-                                                                                <div class="form-row">
-                                                                                                  <div class="form-group">
-                                                                                                                      <label>Nama Penanda Tangan</label>
-                                                                                                                      <input type="text" id="set-signer-name">
-                                                                                                    </div>
-                                                                                                  <div class="form-group">
-                                                                                                                      <label>Jabatan Penanda Tangan</label>
-                                                                                                                      <input type="text" id="set-signer-title">
-                                                                                                    </div>
-                                                                                </div>
-                                                                </div>
-                                                  </div>
-                                      
-                                                  <div class="card">
-                                                                <div class="card-header"><h3>🔢 Penomoran Surat</h3></div>
-                                                                <div class="card-body">
-                                                                                <div class="form-group">
-                                                                                                  <label>Prefix Nomor Surat</label>
-                                                                                                  <input type="text" id="set-nomor-prefix" placeholder="Cth: PMH-LAK">
-                                                                                                  <small>Format nomor: 001/[PREFIX]/III/2026</small>
-                                                                                </div>
-                                                                </div>
-                                                  </div>
-                                      
-                                                  <div class="form-actions">
-                                                                <div id="settings-msg" class="alert" style="display:none"></div>
-                                                                <button type="submit" class="btn btn-primary">💾 Simpan Pengaturan</button>button>
-                                                  </div>
-                                      </form>form>
-                            </div>
-                  
-                  </div><!-- end content-area -->
-          </main>main>
-    </div><!-- end page-app -->
-  
-  </div><!-- end app -->
-
-<!-- MODAL: Detail Pengajuan -->
-<div id="modal-detail" class="modal" style="display:none">
-  <div class="modal-backdrop" onclick="closeModal('modal-detail')"></div>
-  <div class="modal-dialog modal-lg">
-      <div class="modal-header">
-            <h3 id="modal-detail-title">Detail Pengajuan</h3>
-            <button onclick="closeModal('modal-detail')" class="btn-close">✕</button>button>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>🏷️ Daftar Produk</h3><button type="button" onclick="addProductRow()" class="btn btn-secondary btn-sm">+ Tambah Produk</button></div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="table" id="product-table">
+                    <thead><tr><th width="40">No</th><th>Nama Produk *</th><th>Pabrikan</th><th>Spesifikasi</th><th width="70">Qty *</th><th width="80">Satuan</th><th width="140">Harga Satuan *</th><th width="140">Total</th><th width="200">Link Info Produk</th><th width="50"></th></tr></thead>
+                    <tbody id="product-tbody"></tbody>
+                    <tfoot><tr><td colspan="7" class="text-right fw-bold">TOTAL</td><td class="text-right fw-bold" id="grand-total">Rp 0</td><td colspan="2"></td></tr></tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>📋 Kondisi &amp; Catatan</h3></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group"><label>PPN</label><div class="radio-group"><label class="radio-label"><input type="radio" name="ppn" value="1" checked> Sudah termasuk PPN</label><label class="radio-label"><input type="radio" name="ppn" value="0"> Belum termasuk PPN</label></div></div>
+                  <div class="form-group"><label>Ongkos Kirim</label><div class="radio-group"><label class="radio-label"><input type="radio" name="ongkir" value="0" checked> Belum termasuk ongkir</label><label class="radio-label"><input type="radio" name="ongkir" value="1"> Sudah termasuk ongkir</label></div></div>
+                </div>
+                <div class="form-group"><label>Lampiran</label><input type="text" id="sub-lampiran" placeholder="Cth: 1 Lembar Brosur"></div>
+                <div class="form-group"><label>Catatan Tambahan</label><textarea id="sub-notes" rows="2" placeholder="Catatan atau kondisi penawaran lainnya..."></textarea></div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <div id="submit-error" class="alert alert-error" style="display:none"></div>
+              <div id="submit-success" class="alert alert-success" style="display:none"></div>
+              <button type="submit" class="btn btn-primary">📤 Kirim Pengajuan</button>
+              <button type="button" onclick="showPage('my-submissions')" class="btn btn-outline">Batal</button>
+            </div>
+          </form>
+        </div>
+        <div id="content-my-submissions" class="content-page" style="display:none"><div class="page-header"><h1 class="page-title">Pengajuan Saya</h1><button onclick="showPage('new-submission')" class="btn btn-primary">+ Buat Pengajuan</button></div><div class="card"><div id="my-submissions-list"></div></div></div>
+        <div id="content-admin-submissions" class="content-page" style="display:none"><div class="page-header"><h1 class="page-title">Semua Pengajuan</h1><div class="filter-bar"><select id="filter-status" onchange="loadAdminSubmissions()"><option value="">Semua Status</option><option value="pending">Menunggu</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select></div></div><div class="card"><div id="admin-submissions-list"></div></div></div>
+        <div id="content-admin-users" class="content-page" style="display:none"><div class="page-header"><h1 class="page-title">Kelola Pengguna</h1><button onclick="showModal('modal-add-user')" class="btn btn-primary">+ Tambah Pengguna</button></div><div class="card"><div id="users-list"></div></div></div>
+        <div id="content-admin-settings" class="content-page" style="display:none">
+          <h1 class="page-title">Pengaturan Aplikasi</h1>
+          <div class="card"><div class="card-header"><h3>🖼️ Logo Perusahaan</h3></div><div class="card-body"><div class="upload-preview-row"><div class="upload-preview-box" id="logo-preview-box"><img id="logo-preview" src="/img/logo.png" alt="Logo" onerror="this.style.display='none';document.getElementById('logo-placeholder').style.display='flex'"><div id="logo-placeholder" class="upload-placeholder" style="display:none">Belum ada logo</div></div><div class="upload-controls"><label class="btn btn-secondary" for="input-logo">📁 Pilih File Logo</label><input type="file" id="input-logo" accept="image/*" style="display:none" onchange="uploadImage('logo', this)"><small>Format: PNG, JPG, WEBP. Maks 5MB.<br>Rekomendasi: transparan (PNG) dengan lebar ≥ 300px.</small><div id="logo-upload-msg" class="alert" style="display:none;margin-top:8px"></div></div></div></div></div>
+          <div class="card"><div class="card-header"><h3>✍️ Gambar Tanda Tangan</h3></div><div class="card-body"><div class="upload-preview-row"><div class="upload-preview-box upload-preview-box--ttd" id="ttd-preview-box"><img id="ttd-preview" src="/img/ttd.png" alt="TTD" onerror="this.style.display='none';document.getElementById('ttd-placeholder').style.display='flex'"><div id="ttd-placeholder" class="upload-placeholder" style="display:none">Belum ada tanda tangan</div></div><div class="upload-controls"><label class="btn btn-secondary" for="input-ttd">📁 Pilih File TTD</label><input type="file" id="input-ttd" accept="image/*" style="display:none" onchange="uploadImage('ttd', this)"><small>Format: PNG (transparan disarankan). Maks 5MB.</small><div id="ttd-upload-msg" class="alert" style="display:none;margin-top:8px"></div></div></div></div></div>
+          <form id="form-settings">
+            <div class="card"><div class="card-header"><h3>🏢 Informasi Perusahaan</h3></div><div class="card-body"><div class="form-row"><div class="form-group"><label>Nama Perusahaan</label><input type="text" id="set-company-name"></div><div class="form-group"><label>Bidang Usaha / Tagline</label><input type="text" id="set-company-tagline"></div></div><div class="form-group"><label>Alamat Perusahaan</label><input type="text" id="set-company-address" placeholder="Cth: Jl. Contoh No. 1, Jakarta Selatan 12345"></div><div class="form-row"><div class="form-group"><label>Nomor Telepon</label><input type="text" id="set-company-phone" placeholder="Cth: (021) 1234-5678"></div><div class="form-group"><label>Email Perusahaan</label><input type="email" id="set-company-email" placeholder="Cth: info@perusahaan.co.id"></div></div><div class="form-group"><label>Head Office <small style="color:var(--text-light)">(tampil di footer surat)</small></label><input type="text" id="set-company-headoffice" placeholder="Cth: Jl. Sudirman Kav. 52, Jakarta Selatan 12190"></div><div class="form-group"><label>Warehouse <small style="color:var(--text-light)">(tampil di footer surat)</small></label><input type="text" id="set-company-warehouse" placeholder="Cth: Jl. Industri No. 10, Cibitung, Bekasi"></div></div></div>
+            <div class="card"><div class="card-header"><h3>✍️ Penanda Tangan</h3></div><div class="card-body"><div class="form-row"><div class="form-group"><label>Nama Penanda Tangan</label><input type="text" id="set-signer-name"></div><div class="form-group"><label>Jabatan Penanda Tangan</label><input type="text" id="set-signer-title"></div></div></div></div>
+            <div class="card"><div class="card-header"><h3>🔢 Penomoran Surat</h3></div><div class="card-body"><div class="form-group"><label>Prefix Nomor Surat</label><input type="text" id="set-nomor-prefix" placeholder="Cth: PMH-LAK"><small>Format nomor: 001/[PREFIX]/III/2026</small></div></div></div>
+            <div class="form-actions"><div id="settings-msg" class="alert" style="display:none"></div><button type="submit" class="btn btn-primary">💾 Simpan Pengaturan</button></div>
+          </form>
+        </div>
       </div>
-      <div class="modal-body" id="modal-detail-body"></div>
-      <div class="modal-footer" id="modal-detail-footer"></div>
+    </main>
   </div>
 </div>
-
-<!-- MODAL: Reject -->
-<div id="modal-reject" class="modal" style="display:none">
-  <div class="modal-backdrop" onclick="closeModal('modal-reject')"></div>
-  <div class="modal-dialog">
-      <div class="modal-header">
-            <h3>Tolak Pengajuan</h3>
-            <button onclick="closeModal('modal-reject')" class="btn-close">✕</button>button>
-      </div>
-      <div class="modal-body">
-            <div class="form-group">
-                    <label>Alasan Penolakan</label>
-                    <textarea id="reject-reason" rows="3" placeholder="Masukkan alasan penolakan..."></textarea>
-            </div>
-      </div>
-      <div class="modal-footer">
-            <button onclick="confirmReject()" class="btn btn-danger">❌ Tolak Pengajuan</button>button>
-            <button onclick="closeModal('modal-reject')" class="btn btn-outline">Batal</button>button>
-      </div>
-  </div>
-</div>
-
-<!-- MODAL: Tambah User -->
-<div id="modal-add-user" class="modal" style="display:none">
-  <div class="modal-backdrop" onclick="closeModal('modal-add-user')"></div>
-  <div class="modal-dialog">
-      <div class="modal-header">
-            <h3>Tambah Pengguna Baru</h3>
-            <button onclick="closeModal('modal-add-user')" class="btn-close">✕</button>button>
-      </div>
-      <div class="modal-body">
-            <div class="form-row">
-                    <div class="form-group">
-                              <label>Username <span class="required">*</span></label>
-                              <input type="text" id="new-username" placeholder="username">
-                    </div>
-                    <div class="form-group">
-                              <label>Password <span class="required">*</span></label>
-                              <input type="password" id="new-password" placeholder="password">
-                    </div>
-            </div>
-            <div class="form-row">
-                    <div class="form-group">
-                              <label>Nama Lengkap <span class="required">*</span></label>
-                              <input type="text" id="new-fullname" placeholder="Nama lengkap">
-                    </div>
-                    <div class="form-group">
-                              <label>Role <span class="required">*</span></label>
-                              <select id="new-role">
-                                          <option value="staff">Staff</option>option>
-                                          <option value="admin">Admin</option>option>
-                              </select>select>
-                    </div>
-            </div>
-            <div id="add-user-error" class="alert alert-error" style="display:none"></div>
-      </div>
-      <div class="modal-footer">
-            <button onclick="addUser()" class="btn btn-primary">✅ Simpan</button>button>
-            <button onclick="closeModal('modal-add-user')" class="btn btn-outline">Batal</button>button>
-      </div>
-  </div>
-</div>
-
-<!-- Toast Notification -->
+<div id="modal-detail" class="modal" style="display:none"><div class="modal-backdrop" onclick="closeModal('modal-detail')"></div><div class="modal-dialog modal-lg"><div class="modal-header"><h3 id="modal-detail-title">Detail Pengajuan</h3><button onclick="closeModal('modal-detail')" class="btn-close">✕</button></div><div class="modal-body" id="modal-detail-body"></div><div class="modal-footer" id="modal-detail-footer"></div></div></div>
+<div id="modal-reject" class="modal" style="display:none"><div class="modal-backdrop" onclick="closeModal('modal-reject')"></div><div class="modal-dialog"><div class="modal-header"><h3>Tolak Pengajuan</h3><button onclick="closeModal('modal-reject')" class="btn-close">✕</button></div><div class="modal-body"><div class="form-group"><label>Alasan Penolakan</label><textarea id="reject-reason" rows="3" placeholder="Masukkan alasan penolakan..."></textarea></div></div><div class="modal-footer"><button onclick="confirmReject()" class="btn btn-danger">❌ Tolak Pengajuan</button><button onclick="closeModal('modal-reject')" class="btn btn-outline">Batal</button></div></div></div>
+<div id="modal-add-user" class="modal" style="display:none"><div class="modal-backdrop" onclick="closeModal('modal-add-user')"></div><div class="modal-dialog"><div class="modal-header"><h3>Tambah Pengguna Baru</h3><button onclick="closeModal('modal-add-user')" class="btn-close">✕</button></div><div class="modal-body"><div class="form-row"><div class="form-group"><label>Username <span class="required">*</span></label><input type="text" id="new-username" placeholder="username"></div><div class="form-group"><label>Password <span class="required">*</span></label><input type="password" id="new-password" placeholder="password"></div></div><div class="form-row"><div class="form-group"><label>Nama Lengkap <span class="required">*</span></label><input type="text" id="new-fullname" placeholder="Nama lengkap"></div><div class="form-group"><label>Role <span class="required">*</span></label><select id="new-role"><option value="staff">Staff</option><option value="admin">Admin</option></select></div></div><div id="add-user-error" class="alert alert-error" style="display:none"></div></div><div class="modal-footer"><button onclick="addUser()" class="btn btn-primary">✅ Simpan</button><button onclick="closeModal('modal-add-user')" class="btn btn-outline">Batal</button></div></div></div>
 <div id="toast" class="toast" style="display:none"></div>
-
 <script src="/js/app.js"></script>
 </body>
-</html>html></small></small>
-                                                                                                                                                  </label>
-                                                                                                                                                </label></h3>
-                                                                                                                                                        </tr>
-                                                                                                                                </tfoot></th></th>
-                                                                                                                                                          </tr>
-                                                                                                                                  </thead>
-                                </div></li></li></span></label></label></p></h2>
-</body></title>
-  </head>
+</html>
