@@ -186,14 +186,6 @@ async function generateHTML(submission, settings) {
 <!-- ════ HALAMAN LAMPIRAN ════ -->
 <div style="page-break-before:always;">
 
-    <!-- Header Lampiran: Logo + Garis Biru -->
-    <div class="lampiran-header-logo">
-        ${logoDataUrl
-            ? `<img src="${logoDataUrl}" alt="Logo">`
-            : `<span style="font-weight:bold;color:#1F4E79;font-size:14pt">${esc(companyName)}</span>`}
-    </div>
-    <div class="lampiran-divider"></div>
-
     <!-- Judul Lampiran -->
     <div style="font-family:Arial,sans-serif;font-size:11pt;font-weight:bold;margin-bottom:4px;">LAMPIRAN</div>
     <div style="font-family:'Times New Roman',Times,serif;font-size:11pt;margin-bottom:12px;">
