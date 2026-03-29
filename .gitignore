@@ -6,3 +6,5 @@ public/img/ttd.png
 *.db
 *.db-shm
 *.db-wal
+.env
+.env.*
