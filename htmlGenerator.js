@@ -100,14 +100,7 @@ async function generateHTML(submission, settings) {
         ...(notes && notes.trim() ? [esc(notes.trim())] : []),
     ];
 
-    // Footer lampiran: nama perusahaan + alamat
-    const footerLampiran = (companyHeadoffice || companyWarehouse)
-        ? `<div style="border-top:1.5px solid #1F4E79;padding-top:4px;text-align:center;font-family:Arial,sans-serif;font-size:7.5pt;color:#555;margin-top:12px;">
-            <span style="font-weight:bold;color:#1F4E79;font-size:8pt">${esc(companyName.toUpperCase())}</span>
-            ${companyHeadoffice ? `<br>Head Office : ${esc(companyHeadoffice)}` : ''}
-            ${companyWarehouse  ? `<br>Warehouse : ${esc(companyWarehouse)}`   : ''}
-           </div>`
-        : '';
+
 
     return `<!DOCTYPE html>
 <html lang="id">
@@ -208,8 +201,6 @@ async function generateHTML(submission, settings) {
             </tr>
         </tfoot>
     </table>
-
-    ${footerLampiran}
 
 </div>
 
