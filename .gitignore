@@ -1,0 +1,8 @@
+node_modules/
+data/
+uploads/
+public/img/logo.png
+public/img/ttd.png
+*.db
+*.db-shm
+*.db-wal
